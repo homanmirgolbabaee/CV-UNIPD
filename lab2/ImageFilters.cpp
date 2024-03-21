@@ -1,44 +1,39 @@
-// ImageFilters.cpp
 #include "ImageFilters.h"
+#include <algorithm>
+#include <vector>
 
-void applyMaxFilter(const cv::Mat& src, cv::Mat& dst, int kernelSize) {
+cv::Mat ImageFilters::applyMaxFilter(const cv::Mat &src, int kernelSize) {
     if (kernelSize % 2 == 0) {
-        std::cout << "Kernel size must be odd!" << std::endl;
-        return;
+        std::cerr << "Kernel size must be odd." << std::endl;
+        return cv::Mat();
     }
-    // Initialize the destination image
-    dst = src.clone();
-    int radius = kernelSize / 2;
 
+    cv::Mat dst = src.clone();
     // Apply the max filter
-    for (int y = radius; y < src.rows - radius; ++y) {
-        for (int x = radius; x < src.cols - radius; ++x) {
-            cv::Rect region(x - radius, y - radius, kernelSize, kernelSize);
-            cv::Mat kernel = src(region);
-            double minVal, maxVal;
-            cv::minMaxLoc(kernel, &minVal, &maxVal);
-            dst.at<uchar>(y, x) = static_cast<uchar>(maxVal);
-        }
-    }
+    // This is a placeholder for the actual max filter implementation
+    return dst;
 }
 
-void applyMinFilter(const cv::Mat& src, cv::Mat& dst, int kernelSize) {
+cv::Mat ImageFilters::applyMinFilter(const cv::Mat &src, int kernelSize) {
     if (kernelSize % 2 == 0) {
-        std::cout << "Kernel size must be odd!" << std::endl;
-        return;
+        std::cerr << "Kernel size must be odd." << std::endl;
+        return cv::Mat();
     }
-    // Initialize the destination image
-    dst = src.clone();
-    int radius = kernelSize / 2;
 
+    cv::Mat dst = src.clone();
     // Apply the min filter
-    for (int y = radius; y < src.rows - radius; ++y) {
-        for (int x = radius; x < src.cols - radius; ++x) {
-            cv::Rect region(x - radius, y - radius, kernelSize, kernelSize);
-            cv::Mat kernel = src(region);
-            double minVal, maxVal;
-            cv::minMaxLoc(kernel, &minVal, &maxVal);
-            dst.at<uchar>(y, x) = static_cast<uchar>(minVal);
-        }
+    // This is a placeholder for the actual min filter implementation
+    return dst;
+}
+
+cv::Mat ImageFilters::applyMedianFilter(const cv::Mat &src, int kernelSize) {
+    if (kernelSize % 2 == 0) {
+        std::cerr << "Kernel size must be odd." << std::endl;
+        return cv::Mat();
     }
+
+    cv::Mat dst = src.clone();
+    // Apply the median filter
+    // This is a placeholder for the actual median filter implementation
+    return dst;
 }
