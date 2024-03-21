@@ -1,10 +1,13 @@
-// ImageFilters.h
 #ifndef IMAGEFILTERS_H
 #define IMAGEFILTERS_H
 
 #include <opencv2/opencv.hpp>
 
-void applyMaxFilter(const cv::Mat& src, cv::Mat& dst, int kernelSize);
-void applyMinFilter(const cv::Mat& src, cv::Mat& dst, int kernelSize);
+class ImageFilters {
+public:
+    static cv::Mat applyMaxFilter(const cv::Mat &src, int kernelSize);
+    static cv::Mat applyMinFilter(const cv::Mat &src, int kernelSize);
+    static cv::Mat applyMedianFilter(const cv::Mat &src, int kernelSize);
+};
 
 #endif // IMAGEFILTERS_H
