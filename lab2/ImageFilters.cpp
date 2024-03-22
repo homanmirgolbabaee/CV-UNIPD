@@ -1,39 +1,34 @@
 #include "ImageFilters.h"
-#include <algorithm>
-#include <vector>
 
-cv::Mat ImageFilters::applyMaxFilter(const cv::Mat &src, int kernelSize) {
+// Implement the maxFilter function
+cv::Mat maxFilter(const cv::Mat& src, int kernelSize) {
+    cv::Mat dst;
     if (kernelSize % 2 == 0) {
-        std::cerr << "Kernel size must be odd." << std::endl;
-        return cv::Mat();
+        std::cerr << "Kernel size must be odd!" << std::endl;
+        return src; // Returning the original image
     }
-
-    cv::Mat dst = src.clone();
-    // Apply the max filter
-    // This is a placeholder for the actual max filter implementation
+    // Apply max filtering
+    cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(kernelSize, kernelSize));
+    cv::dilate(src, dst, kernel);
     return dst;
 }
 
-cv::Mat ImageFilters::applyMinFilter(const cv::Mat &src, int kernelSize) {
+// Implement the minFilter function
+cv::Mat minFilter(const cv::Mat& src, int kernelSize) {
+    cv::Mat dst;
     if (kernelSize % 2 == 0) {
-        std::cerr << "Kernel size must be odd." << std::endl;
-        return cv::Mat();
+        std::cerr << "Kernel size must be odd!" << std::endl;
+        return src; // Returning the original image
     }
-
-    cv::Mat dst = src.clone();
-    // Apply the min filter
-    // This is a placeholder for the actual min filter implementation
+    // Apply min filtering
+    cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(kernelSize, kernelSize));
+    cv::erode(src, dst, kernel);
     return dst;
 }
 
-cv::Mat ImageFilters::applyMedianFilter(const cv::Mat &src, int kernelSize) {
-    if (kernelSize % 2 == 0) {
-        std::cerr << "Kernel size must be odd." << std::endl;
-        return cv::Mat();
-    }
-
-    cv::Mat dst = src.clone();
-    // Apply the median filter
-    // This is a placeholder for the actual median filter implementation
-    return dst;
+// Implement the showResizedWindow function
+void showResizedWindow(const std::string& winname, const cv::Mat& img, int width, int height) {
+    cv::Mat resizedImg;
+    cv::resize(img, resizedImg, cv::Size(width, height)); // Resize the image
+    cv::imshow(winname, resizedImg); // Show the resized image in a window
 }
