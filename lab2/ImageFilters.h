@@ -13,7 +13,7 @@ cv::Mat medianFilter(const cv::Mat& src, int kernelSize);
 // In ImageFilters.h
 cv::Mat gaussianSmoothing(const cv::Mat& src, int kernelSize, double sigmaX, double sigmaY = 0);
 
-void plotHistogram(const cv::Mat& src);
+void plotHistogram(const cv::Mat& src, const std::string& title);
 cv::Mat histogramEqualization(const cv::Mat& src);
 
 #endif // IMAGEFILTERS_H
