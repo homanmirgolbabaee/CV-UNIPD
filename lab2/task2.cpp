@@ -14,9 +14,21 @@ int main() {
     auto gaussianSmoothed = gaussianSmoothing(img, 5, 1.5); // Example sigma values
     showResizedWindow("Gaussian Smoothed", gaussianSmoothed);
 
-    // Histogram Equalization
-    auto histEqualized = histogramEqualization(img);
-    showResizedWindow("Histogram Equalized", histEqualized);
+
+    // Show the histogram of the original image
+    plotHistogram(img, "Histogram Before Equalization");
+
+    // Apply histogram equalization
+    cv::Mat histEqualized;
+    cv::equalizeHist(img, histEqualized);
+
+    // Show the histogram of the equalized image
+    plotHistogram(histEqualized, "Histogram After Equalization");
+
+    // Optionally, show the images themselves for comparison
+    cv::imshow("Original Image", img);
+    cv::imshow("Equalized Image", histEqualized);
+
 
     cv::waitKey(0);
     return 0;
