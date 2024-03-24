@@ -64,9 +64,54 @@ cv::Mat histogramEqualization(const cv::Mat& src) {
     return dst;
 }
 
-// Implement a function for histogram plotting (basic version)
-void plotHistogram(const cv::Mat& src) {
-    // Calculate histogram here
-    // Displaying or analyzing the histogram requires additional steps
-    // This is a placeholder to illustrate where histogram calculations would go
+
+
+
+void calculateHistogram(const cv::Mat& src, cv::Mat& hist, int histSize = 256) {
+    // Set the ranges (for B,G,R channels, if applicable)
+    float range[] = {0, 256};
+    const float* histRange[] = {range};
+
+    // Calculate the histogram
+    cv::calcHist(&src, 1, 0, cv::Mat(), hist, 1, &histSize, histRange, true, false);
+
+    // Normalize the result to [0, 255]
+    cv::normalize(hist, hist, 0, 255, cv::NORM_MINMAX);
 }
+
+
+
+
+// New implementation for plotHistogram
+void plotHistogram(const cv::Mat& src, const std::string& title) {
+    
+    // Number of bins
+    int histSize = 256;
+    float range[] = {0, 256}; //the upper boundary is exclusive
+    const float* histRange = {range};
+    bool uniform = true, accumulate = false;
+    cv::Mat hist;
+
+    // Calculate the histogram for the grayscale image
+    calcHist(&src, 1, 0, cv::Mat(), hist, 1, &histSize, &histRange, uniform, accumulate);
+
+    // Create an image to display the histogram
+    int hist_w = 512, hist_h = 400;
+    int bin_w = cvRound((double) hist_w / histSize);
+    cv::Mat histImage(hist_h, hist_w, CV_8UC3, cv::Scalar(0,0,0));
+
+    // Normalize the result to [0, histImage.rows]
+    normalize(hist, hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+
+    // Draw for each channel
+    for(int i = 1; i < histSize; i++) {
+        line(histImage, cv::Point(bin_w*(i-1), hist_h - cvRound(hist.at<float>(i-1))),
+             cv::Point(bin_w*(i), hist_h - cvRound(hist.at<float>(i))),
+             cv::Scalar(255, 0, 0), 2, 8, 0);
+    }
+
+    // Display
+    cv::imshow(title, histImage); 
+}
+
+
