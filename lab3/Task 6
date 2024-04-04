@@ -1,0 +1,96 @@
+#include <opencv2/opencv.hpp>
+
+// global variabes
+cv::Vec3b referenceColor;
+int thresholdValue = 50;
+
+
+void onMouse(int event, int x, int y, int flags, void* userdata) {
+    // check if the event is a left button click
+    if (event == cv::EVENT_LBUTTONDOWN) {
+        // Get the img
+        cv::Mat* image = static_cast<cv::Mat*>(userdata);
+
+        // Convert the img to HSV color space
+        cv::Mat hsvImage;
+        cv::cvtColor(*image, hsvImage, cv::COLOR_BGR2HSV);
+
+        // check if the coordinates are within the image boundaries
+        if (x >= 0 && x < hsvImage.cols && y >= 0 && y < hsvImage.rows) {
+            // Define the neighborhood size (9x9)
+            int neighborhoodSize = 9;
+
+            // define the neighborhood boundaries
+            int startX = std::max(0, x - neighborhoodSize / 2);
+            int endX = std::min(hsvImage.cols - 1, x + neighborhoodSize / 2);
+            int startY = std::max(0, y - neighborhoodSize / 2);
+            int endY = std::min(hsvImage.rows - 1, y + neighborhoodSize / 2);
+
+            // variables to store the sum of H, S, V values in the neighborhood
+            int sumH = 0, sumS = 0, sumV = 0;
+
+            // Calculate the sum of H, S, V values in the neighborhood
+            for (int j = startY; j <= endY; ++j) {
+                for (int i = startX; i <= endX; ++i) {
+                    cv::Vec3b hsvPixel = hsvImage.at<cv::Vec3b>(j, i);
+                    sumH += hsvPixel[0];
+                    sumS += hsvPixel[1];
+                    sumV += hsvPixel[2];
+                }
+            }
+
+            // calculate the mean of H, S, V values in the neighborhood
+            int numPixels = (endX - startX + 1) * (endY - startY + 1);
+            int meanH = sumH / numPixels;
+            int meanS = sumS / numPixels;
+            int meanV = sumV / numPixels;
+
+            // set the reference color in HSV space
+            referenceColor = cv::Vec3b(meanH, meanS, meanV);
+
+            // create a mask based on the color and threshold in HSV space
+            cv::Mat mask = cv::Mat::zeros(hsvImage.size(), CV_8UC1); // Initialize mask as black
+            for (int j = 0; j < hsvImage.rows; ++j) {
+                for (int i = 0; i < hsvImage.cols; ++i) {
+                    cv::Vec3b hsvPixel = hsvImage.at<cv::Vec3b>(j, i);
+                    int distance = cv::norm(hsvPixel - referenceColor); // Euclidean distance between colors
+                    if (distance <= thresholdValue) {
+                        mask.at<uchar>(j, i) = 255; // Set pixel to white
+                    }
+                }
+            }
+
+            // create a new img based on the mask and given color
+            cv::Mat newImage = cv::Mat::zeros(image->size(), image->type());
+            cv::Vec3b givenColor(92, 37, 201); // Color triplet (92, 37, 201)
+            for (int j = 0; j < image->rows; ++j) {
+                for (int i = 0; i < image->cols; ++i) {
+                    if (mask.at<uchar>(j, i) == 0) {
+                        // pixel in mask is black, copy pixel from input image
+                        newImage.at<cv::Vec3b>(j, i) = image->at<cv::Vec3b>(j, i);
+                    } else {
+                        // pixel in mask is white, set pixel to given color
+                        newImage.at<cv::Vec3b>(j, i) = givenColor;
+                    }
+                }
+            }
+
+            // display the new img
+            cv::imshow("New Image", newImage);
+        }
+    }
+}
+
+int main() {
+    cv::Mat image = cv::imread("robocup.jpg");
+    if (image.empty()) {
+        std::cerr << "Error: Unable to load image." << std::endl;
+        return 1;
+    }
+    cv::imshow("Image", image);
+    cv::setMouseCallback("Image", onMouse, static_cast<void*>(&image));
+    cv::waitKey(0);
+    cv::destroyAllWindows();
+
+    return 0;
+}
