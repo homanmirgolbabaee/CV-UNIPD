@@ -1,0 +1,38 @@
+#include <opencv2/opencv.hpp>
+
+// Callback function for mouse events
+void onMouse(int event, int x, int y, int flags, void* userdata) {
+    // Check if the left button triggers it:
+    if (event == cv::EVENT_LBUTTONDOWN) {
+        cv::Mat* image = static_cast<cv::Mat*>(userdata);
+
+        // Checking if the coordinates are within the image boundaries
+        if (x >= 0 && x < image->cols && y >= 0 && y < image->rows) {
+            // Get the BGR color triplet of the pixel at the point we clicked
+            cv::Vec3b color = image->at<cv::Vec3b>(y, x);
+
+            // Print the BGR color triplet
+            std::cout << "BGR Color at (" << x << ", " << y << "): "
+                      << "B=" << static_cast<int>(color[0]) << ", "
+                      << "G=" << static_cast<int>(color[1]) << ", "
+                      << "R=" << static_cast<int>(color[2]) << std::endl;
+        }
+    }
+}
+
+int main() {
+    cv::Mat image = cv::imread("robocup.jpg");
+
+    // Checking if we loaded the image
+    if (image.empty()) {
+        std::cerr << "Error: Unable to load image." << std::endl;
+        return 1;
+    }
+
+    cv::imshow("Image", image);
+    cv::setMouseCallback("Image", onMouse, static_cast<void*>(&image));
+    cv::waitKey(0);
+    cv::destroyAllWindows();
+
+    return 0;
+}
