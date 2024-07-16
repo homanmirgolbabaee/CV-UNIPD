@@ -1,20 +1,21 @@
+Scanning dependencies of target test
 [ 20%] Building CXX object CMakeFiles/test.dir/BilliardAnalyzer.cpp.o
-In file included from /home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:9:
-/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.h: In member function 'void BilliardAnalyzer::setTablePoints(const std::vector<cv::Point_<float> >&)':
-/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.h:36:67: error: 'tablePoints' was not declared in this scope; did you mean 'setTablePoints'?
-   36 |     void setTablePoints(const std::vector<cv::Point2f>& points) { tablePoints = points; }
-      |                                                                   ^~~~~~~~~~~
-      |                                                                   setTablePoints
 /home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp: In member function 'void BilliardAnalyzer::initializeTracking(const cv::Mat&)':
-/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:437:59: error: 'tablePoints' was not declared in this scope; did you mean 'setTablePoints'?
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:437:52: error: binding reference of type 'cv::Mat&' to 'const cv::Mat' discards qualifiers
   437 |     std::tie(ballCenters, ballRadii) = locateBalls(frame, tablePoints);
-      |                                                           ^~~~~~~~~~~
-      |                                                           setTablePoints
+      |                                                    ^~~~~
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:206:97: note:   initializing argument 1 of 'std::tuple<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > >, std::vector<float, std::allocator<float> > > BilliardAnalyzer::locateBalls(cv::Mat&, std::vector<cv::Point_<float> >)'
+  206 | td::vector<cv::Point2f>, std::vector<float>> BilliardAnalyzer::locateBalls(cv::Mat& image, std::vector<cv::Point2f> tablePoints) {
+      |                                                                            ~~~~~~~~~^~~~~
+
 /home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp: In member function 'std::vector<Ball> BilliardAnalyzer::trackBalls(const cv::Mat&)':
-/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:469:63: error: 'tablePoints' was not declared in this scope; did you mean 'setTablePoints'?
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:469:56: error: binding reference of type 'cv::Mat&' to 'const cv::Mat' discards qualifiers
   469 |         std::tie(ballCenters, ballRadii) = locateBalls(frame, tablePoints);
-      |                                                               ^~~~~~~~~~~
-      |                                                               setTablePoints
+      |                                                        ^~~~~
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:206:97: note:   initializing argument 1 of 'std::tuple<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > >, std::vector<float, std::allocator<float> > > BilliardAnalyzer::locateBalls(cv::Mat&, std::vector<cv::Point_<float> >)'
+  206 | td::vector<cv::Point2f>, std::vector<float>> BilliardAnalyzer::locateBalls(cv::Mat& image, std::vector<cv::Point2f> tablePoints) {
+      |                                                                            ~~~~~~~~~^~~~~
+
 make[2]: *** [CMakeFiles/test.dir/build.make:82: CMakeFiles/test.dir/BilliardAnalyzer.cpp.o] Error 1
 make[1]: *** [CMakeFiles/Makefile2:95: CMakeFiles/test.dir/all] Error 2
 make: *** [Makefile:103: all] Error 2
