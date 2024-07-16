@@ -1,0 +1,13 @@
+Scanning dependencies of target test
+[ 20%] Building CXX object CMakeFiles/test.dir/BilliardAnalyzer.cpp.o
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp: In member function 'void BilliardAnalyzer::initializeTracking(const cv::Mat&)':
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:440:59: error: 'tablePoints' was not declared in this scope
+  440 |     std::tie(ballCenters, ballRadii) = locateBalls(frame, tablePoints);
+      |                                                           ^~~~~~~~~~~
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp: In member function 'std::vector<Ball> BilliardAnalyzer::trackBalls(const cv::Mat&)':
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:472:63: error: 'tablePoints' was not declared in this scope
+  472 |         std::tie(ballCenters, ballRadii) = locateBalls(frame, tablePoints);
+      |                                                               ^~~~~~~~~~~
+make[2]: *** [CMakeFiles/test.dir/build.make:82: CMakeFiles/test.dir/BilliardAnalyzer.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:95: CMakeFiles/test.dir/all] Error 2
+make: *** [Makefile:103: all] Error 2
