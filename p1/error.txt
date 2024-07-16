@@ -1,0 +1,40 @@
+Singularity> make
+Scanning dependencies of target test
+[ 20%] Building CXX object CMakeFiles/test.dir/BilliardAnalyzer.cpp.o
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:188:6: error: no declaration matches 'void BilliardAnalyzer::drawBoundingBox(std::vector<cv::Point_<float> >, cv::Mat&)'
+  188 | void BilliardAnalyzer::drawBoundingBox(std::vector<cv::Point2f> tablePoints, cv::Mat& image){
+      |      ^~~~~~~~~~~~~~~~
+In file included from /home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:9:
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.h:17:10: note: candidate is: 'void BilliardAnalyzer::drawBoundingBox(const std::vector<cv::Point_<float> >&, cv::Mat&)'
+   17 |     void drawBoundingBox(const std::vector<cv::Point2f>& tablePoints, cv::Mat& image);
+      |          ^~~~~~~~~~~~~~~
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.h:11:7: note: 'class BilliardAnalyzer' defined here
+   11 | class BilliardAnalyzer {
+      |       ^~~~~~~~~~~~~~~~
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:206:58: error: no declaration matches 'std::tuple<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > >, std::vector<float, std::allocator<float> > > BilliardAnalyzer::locateBalls(cv::Mat&, std::vector<cv::Point_<float> >)'
+  206 | std::tuple<std::vector<cv::Point2f>, std::vector<float>> BilliardAnalyzer::locateBalls(cv::Mat& image, std::vector<cv::Point2f> tablePoints) {
+      |                                                          ^~~~~~~~~~~~~~~~
+In file included from /home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:9:
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.h:18:62: note: candidate is: 'std::tuple<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > >, std::vector<float, std::allocator<float> > > BilliardAnalyzer::locateBalls(cv::Mat&, const std::vector<cv::Point_<float> >&)'
+   18 |    std::tuple<std::vector<cv::Point2f>, std::vector<float>> locateBalls(cv::Mat& image, const std::vector<cv::Point2f>& tablePoints);
+      |                                                             ^~~~~~~~~~~
+
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.h:11:7: note: 'class BilliardAnalyzer' defined here
+   11 | class BilliardAnalyzer {
+      |       ^~~~~~~~~~~~~~~~
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp: In member function 'void BilliardAnalyzer::initializeTracking(const cv::Mat&)':
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:437:59: error: 'tablePoints' was not declared in this scope; did you mean 'm_tablePoints'?
+  437 |     std::tie(ballCenters, ballRadii) = locateBalls(frame, tablePoints);
+      |                                                           ^~~~~~~~~~~
+      |                                                           m_tablePoints
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp: In member function 'std::vector<Ball> BilliardAnalyzer::trackBalls(const cv::Mat&)':
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:474:63: error: 'tablePoints' was not declared in this scope; did you mean 'm_tablePoints'?
+  474 |       std::tie(ballCenters, ballRadii) = locateBalls(frame, tablePoints);
+      |                                                             ^~~~~~~~~~~
+      |                                                             m_tablePoints
+/home/local/mirghom49577/Downloads/CV-Project/BilliardAnalyzer.cpp:485:63: error: 'UNKNOWN' was not declared in this scope
+  485 |                 Ball newBall = {ballCenters[i], ballRadii[i], UNKNOWN};
+      |                                                               ^~~~~~~
+make[2]: *** [CMakeFiles/test.dir/build.make:82: CMakeFiles/test.dir/BilliardAnalyzer.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:95: CMakeFiles/test.dir/all] Error 2
+make: *** [Makefile:103: all] Error 2
